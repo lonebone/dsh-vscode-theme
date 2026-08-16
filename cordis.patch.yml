@@ -1,0 +1,6 @@
+- id: ui-layout
+  disabled: true
+
+- insert:
+    - id: vscode-theme
+      name: dsh-vscode-theme

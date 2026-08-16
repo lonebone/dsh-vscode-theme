@@ -1,0 +1,53 @@
+{
+  "name": "dsh-vscode-theme",
+  "version": "0.1.0",
+  "description": "VS Code-style workbench inside DeepSeek Harness Web: activity bar, explorer file tree, source-control (Git) panel and editor tabs — backed by real filesystem & Git routes.",
+  "type": "module",
+  "main": "lib/index.js",
+  "exports": {
+    ".": "./lib/index.js",
+    "./client": "./lib/client.js",
+    "./cordis.patch.yml": "./cordis.patch.yml",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib",
+    "cordis.patch.yml"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "deepseek",
+    "harness",
+    "dsh",
+    "dsh-plugin",
+    "vscode",
+    "theme",
+    "skin",
+    "web-ui",
+    "source-control",
+    "git",
+    "file-explorer"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/<your-github-username>/dsh-vscode-theme.git"
+  },
+  "homepage": "https://github.com/<your-github-username>/dsh-vscode-theme#readme",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web",
+      "inject": [
+        "@deepseek-ai/dsh-client-runtime"
+      ]
+    }
+  }
+}
