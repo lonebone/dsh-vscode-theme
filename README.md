@@ -27,7 +27,7 @@
 dsh plugin --profile web add dsh-vscode-theme
 
 # 方式二：从 GitHub 安装
-dsh plugin --profile web add github:<your-github-username>/dsh-vscode-theme
+dsh plugin --profile web add github:lonebone/dsh-vscode-theme
 
 # 方式三：本地开发（file: 直链）
 dsh plugin --profile web add file:/绝对/路径/dsh-vscode-theme
@@ -64,14 +64,14 @@ GitHub 上另有 [Sim-xia/dsh-vscode-theme](https://github.com/Sim-xia/dsh-vscod
 ### 开发
 
 ```sh
-git clone <repo-url>
+git clone https://github.com/lonebone/dsh-vscode-theme.git
 dsh plugin --profile web add file:./dsh-vscode-theme   # 本地链接安装
 # 修改 lib/*.js 后重启 dsh web 生效
 ```
 
 ### 许可
 
-MIT © <your-github-username>
+MIT © lonebone
 
 ---
 
@@ -94,7 +94,7 @@ A DSH (DeepSeek Harness) plugin that replaces the default web UI with a VS Code-
 dsh plugin --profile web add dsh-vscode-theme
 
 # from GitHub
-dsh plugin --profile web add github:<your-github-username>/dsh-vscode-theme
+dsh plugin --profile web add github:lonebone/dsh-vscode-theme
 
 # local development (file: link)
 dsh plugin --profile web add file:/absolute/path/dsh-vscode-theme
@@ -131,11 +131,11 @@ There is another [Sim-xia/dsh-vscode-theme](https://github.com/Sim-xia/dsh-vscod
 ### Development
 
 ```sh
-git clone <repo-url>
+git clone https://github.com/lonebone/dsh-vscode-theme.git
 dsh plugin --profile web add file:./dsh-vscode-theme   # local link install
 # edit lib/*.js, then restart dsh web
 ```
 
 ### License
 
-MIT © <your-github-username>
+MIT © lonebone

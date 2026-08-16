@@ -33,9 +33,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/<your-github-username>/dsh-vscode-theme.git"
+    "url": "git+https://github.com/lonebone/dsh-vscode-theme.git"
   },
-  "homepage": "https://github.com/<your-github-username>/dsh-vscode-theme#readme",
+  "homepage": "https://github.com/lonebone/dsh-vscode-theme#readme",
   "publishConfig": {
     "access": "public"
   },
