@@ -4,6 +4,8 @@
 >
 > A VS Code-style workbench for DeepSeek Harness Web — activity bar, explorer file tree, source-control (Git) panel and editor tabs, backed by real filesystem & Git routes.
 
+<img src="https://raw.githubusercontent.com/lonebone/dsh-vscode-theme/main/docs/screenshots/workbench-main.png" alt="dsh-vscode-theme — VS Code-style workbench for DeepSeek Harness" width="820">
+
 [English](#english) | [中文](#中文)
 
 ---
