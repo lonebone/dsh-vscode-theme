@@ -10,7 +10,7 @@
 #
 # 说明：npm 官方 OIDC trusted publishing 目前有未修复的 bug（npm/cli#8730、#8976，
 # 发布时签名成功但 PUT 返回 404），故使用成熟的 token 方式保证发布稳定。
-# 未来 npm 修好后可切回 trusted publishing（见 PUBLISHING.md）。
+# 未来 npm 修好后可切回 trusted publishing（见 发布指南.md）。
 
 name: publish
 
