@@ -1,0 +1,113 @@
+# 踩坑记录 / Troubleshooting
+
+> 本项目从"本地开发"到"npm 发布 + GitHub 自动发布"全过程中遇到的所有坑和解决办法。
+> 维护者必读；下载插件的用户看 README 即可。
+
+---
+
+## 一、npm 发布相关
+
+### 1. npm 强制 2FA，没有认证器 App 就发不了
+- **现象**：`npm publish` 报 `403 Two-factor authentication ... required`，即使已 `npm login`。
+- **原因**：npm 强制发布账号开启 2FA；无认证器 App（TOTP）就产生不了验证码。
+- **解决**：生成 **Granular Access Token** 并勾选 **Bypass 2FA for publish**，然后：
+  ```sh
+  npm config set //registry.npmjs.org/:_authToken=npm_xxx
+  ```
+- **注意**：token 属于敏感凭据，只放本机 `.npmrc` 或 GitHub Secret，不要进代码/聊天。
+
+### 2. 单包作用域的 token 无法发布"第一个版本"
+- **现象**：`npm publish` 报 `403 You may not perform that action with these credentials`。
+- **原因**：npm 限制——只绑定单个包的 Granular Token **不能创建还不存在的包**。
+- **解决**：token 的 Packages and scopes 选 **All of my packages**（发完首版后，可再生成一个仅限单包的收紧权限）。
+- 参考：https://docs.npmjs.com/about-access-tokens
+
+### 3. publish 成功但立刻 view 报 404
+- **现象**：`npm publish` exit 0，但 `npm view` / 网页马上查是 404。
+- **原因**：npm 注册表索引同步有延迟（几秒到几分钟）。
+- **解决**：等几秒重试；用 `node -e "fetch('https://registry.npmjs.org/<包名>')"` 直接查 JSON。
+
+### 4. bypass-2FA token 未来会被限制（迁移公告）
+- npm 正在收紧 bypass 2FA token（`npm tokens that bypass 2FA are being restricted...`）。
+- **现在完全可用**；等 npm 真限制时，切换 Trusted Publishing（见下方第 5 条 + PUBLISHING.md）。
+
+### 5. Trusted Publishing（OIDC）当前不可用——已知上游 bug
+- **现象**：GitHub Actions 里 `npm publish` 打印
+  `Signed provenance statement ... transparency log` 后，`PUT ... 404 Not Found`。
+- **原因**：npm 官方 OIDC 功能有未修复 bug：
+  - https://github.com/npm/cli/issues/8730
+  - https://github.com/npm/cli/issues/8976
+  - 已试：Node 24 + npm@latest + 官方文档规范配置（setup-node@v6 / registry-url /
+    package-manager-cache: false），均 404。
+- **另一个坑**：完全去掉 setup-node 的 `registry-url` 会导致 OIDC 也不触发，
+  报 `ENEEDAUTH`（npm 需要 registry 配置来做 OIDC token 交换）。
+- **当前方案**：用 NPM_TOKEN（GitHub Actions Secret）+ 经典 token 发布，稳定可用。
+  等 npm 修好后再按 PUBLISHING.md 切换。
+
+### 6. 注意事项
+- npm 的 Trusted Publisher 网页表单**不校验**仓库/工作流是否存在，大小写、`.yml`/`.yaml` 后缀错都会静默失败。
+
+---
+
+## 二、GitHub 相关
+
+### 7. 直连 github.com 超时 / 连接重置（国内网络）
+- **现象**：`git push` 报 `Failed to connect to github.com port 443` 或 `Connection was reset`；
+  但浏览器访问正常（浏览器走了系统代理）。
+- **解决**：让 git 走系统本地代理（本机是 `127.0.0.1:18081`，已写入仓库 `.git/config`）：
+  ```sh
+  git config http.proxy http://127.0.0.1:18081
+  git config https.proxy http://127.0.0.1:18081
+  ```
+  换网络后想直连，`git config --unset http.proxy` 即可。
+
+### 8. git "dubious ownership" 报错
+- **现象**：`fatal: detected dubious ownership in repository at 'D:/...'`。
+- **原因**：目录属主是 BUILTIN/Administrators，当前用户 SID 不同。
+- **解决**：
+  ```sh
+  git config --global --add safe.directory "D:/@VUE/DeepSeekHarness_vscode/dsh-vscode-theme"
+  ```
+
+### 9. 首次 push 弹浏览器登录（GCM）
+- git for Windows 自带 Credential Manager，首次 push 弹 GitHub 登录窗口，
+  登录后凭据存入 Windows 凭据管理器，之后免密推送。
+- 如果没弹：`git config credential.helper manager`。
+
+### 10. GitHub Actions 日志
+- REST API 下载日志需要仓库权限，匿名只能看运行结论；
+  详细报错请直接在网页打开 Actions 运行页查看失败步骤。
+
+---
+
+## 三、DSH / 本地环境
+
+### 11. pnpm store 错位导致装插件失败
+- **现象**：`dsh plugin add` 报 `ERR_PNPM_UNEXPECTED_STORE`（node_modules 链接到旧 store）。
+- **解决**：按 pnpm 提示在 profile 目录重跑 `pnpm install`（store 迁移）；
+  提示无 TTY 时加 `CI=true` 环境变量。
+
+### 12. 自动化环境（沙箱）特有问题（个人终端不会遇到）
+- npm 写 `AppData\Local\npm-cache` 被拒 → 命令加 `--cache <工作区路径>`。
+- `npm.cmd` / `ssh.exe` 等经 PowerShell 管道/重定向会报
+  `StandardErrorEncoding is only supported when standard output is redirected` → 不要用管道，直接执行。
+- 这些只影响自动化环境，你自己的终端无此问题。
+
+---
+
+## 常用命令速查
+
+```sh
+# 发新版（3 步）
+cd D:\@VUE\DeepSeekHarness_vscode\dsh-vscode-theme
+git tag v0.1.2 && git push origin main v0.1.2     # 自动发布到 npm
+
+# 手动发布
+npm publish
+
+# 查看 npm 包
+npm view dsh-vscode-theme
+
+# 查看 GitHub Actions 状态
+# https://github.com/lonebone/dsh-vscode-theme/actions
+```
