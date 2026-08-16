@@ -1,13 +1,13 @@
 # npm Trusted Publishing (OIDC) — 自动发布 dsh-vscode-theme
 #
 # 前置条件（一次性，见 PUBLISHING.md）：
-#   npmjs.com → 包页面 → Package settings → Publishing access → Trusted Publishers
-#   → Add Trusted Publisher：
-#     Provider: GitHub Actions
+#   npmjs.com → 包页面 → Package settings → Trusted Publisher
+#   → 点 GitHub Actions，填写：
 #     Organization or user: lonebone
-#     Repository name: dsh-vscode-theme
+#     Repository: dsh-vscode-theme
 #     Workflow filename: publish.yml
 #     Environment: 留空
+#     Allowed actions: npm publish（至少勾选此项）
 #
 # 触发方式：
 #   git tag v0.1.1 && git push origin v0.1.1   （或 GitHub 页面手动 Run workflow）
@@ -15,8 +15,11 @@
 # 安全模型：GitHub Actions 通过 OIDC 获取 npm 的短时发布凭证，仓库和 .npmrc 里
 # 不需要任何长期 token / 密钥。
 #
-# 注意：npm 官方要求 trusted publishing 需要 npm CLI >= 11.5.1 且 Node >= 22.14，
-# 因此用 node 24 并显式升级 npm 到最新。
+# 已知坑（npm/cli#8730 等）：
+#   - 必须 Node 24+（自带 npm 11.5.1+），并显式升级 npm@latest
+#   - 不要给 setup-node 配 registry-url：它会自动生成含 _authToken 的 .npmrc，
+#     导致 npm 跳过 OIDC 握手而用（无效的）token 认证 → 404
+#   - 发布前清掉 NODE_AUTH_TOKEN 哨兵和 $HOME/.npmrc
 
 name: publish
 
@@ -39,10 +42,13 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 24
-          registry-url: https://registry.npmjs.org
+          # 故意不设 registry-url，避免生成含 _authToken 的 .npmrc 干扰 OIDC
 
       - name: Ensure npm >= 11.5.1 (trusted publishing requirement)
         run: npm install -g npm@latest
 
       - name: Publish to npm (trusted publishing)
-        run: npm publish --provenance --access public
+        run: |
+          unset NODE_AUTH_TOKEN
+          rm -f "$HOME/.npmrc"
+          npm publish --provenance --access public
