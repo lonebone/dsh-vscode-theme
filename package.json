@@ -1,6 +1,6 @@
 {
   "name": "dsh-vscode-theme",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "VS Code-style workbench inside DeepSeek Harness Web: activity bar, explorer file tree, source-control (Git) panel and editor tabs — backed by real filesystem & Git routes.",
   "type": "module",
   "main": "lib/index.js",
