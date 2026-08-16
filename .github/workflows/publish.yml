@@ -1,0 +1,36 @@
+# npm Trusted Publishing (OIDC) — 自动发布 dsh-vscode-theme
+#
+# 前置条件（一次性，见 PUBLISHING.md）：
+#   npmjs.com → 你的账号 → 该包的 Trusted Publishers → 添加本仓库（lonebone/dsh-vscode-theme）
+#
+# 触发方式：
+#   git tag v0.1.1 && git push origin v0.1.1   （或 GitHub 页面手动 Run workflow）
+#
+# 安全模型：GitHub Actions 通过 OIDC 获取 npm 的短时发布凭证，仓库和 .npmrc 里
+# 不需要任何长期 token / 密钥。
+
+name: publish
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+
+permissions:
+  id-token: write   # OIDC 发布凭证必需
+  contents: read
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          registry-url: https://registry.npmjs.org
+
+      - name: Publish to npm (trusted publishing)
+        run: npm publish --provenance --access public
