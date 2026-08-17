@@ -21,6 +21,7 @@
 - **源代码管理（Source Control）**：完整 Git 面板——查看分支、文件变更分组、逐文件/全部 **暂存 / 取消暂存 / 放弃更改 / 添加到 .gitignore**、提交消息框（**Ctrl+Enter 提交**）、最近提交历史与单文件 diff
 - **编辑器标签页（Tabs）**：多会话以 VS Code 风格标签页展示，可切换/关闭/新建
 - **VS Code 观感**：深色工作台配色、可拖拽调整的侧边栏/面板宽度，跟随 DSH 亮/暗色 token
+- **多语言**：界面提示与文案跟随 DSH 的语言设置（中文 / English）
 
 ### 安装
 
@@ -88,6 +89,7 @@ A DSH (DeepSeek Harness) plugin that replaces the default web UI with a VS Code-
 - **Source Control** — a full Git panel: branch, grouped file changes, per-file or bulk **stage / unstage / discard / add to .gitignore**, commit message box (**Ctrl+Enter** to commit), recent commit history and per-file diffs
 - **Tabs** — multiple sessions as VS Code-style editor tabs (switch / close / new)
 - **VS Code look** — dark workbench chrome, draggable sidebar/panel widths, follows DSH light/dark tokens
+- **i18n** — UI labels and hints follow DSH's language setting (中文 / English)
 
 ### Install
 
