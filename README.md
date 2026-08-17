@@ -1,10 +1,10 @@
-# dsh-vscode-theme
+# dsh-vscode-shell
 
 > 把 DeepSeek Harness Web 界面改造成 VS Code 风格的工作台：活动栏 + 文件浏览器 + 源代码管理（Git）面板 + 编辑器标签页，由真实的文件系统与 Git 接口驱动。
 >
 > A VS Code-style workbench for DeepSeek Harness Web — activity bar, explorer file tree, source-control (Git) panel and editor tabs, backed by real filesystem & Git routes.
 
-<img src="https://raw.githubusercontent.com/lonebone/dsh-vscode-theme/main/docs/screenshots/workbench-main.png" alt="dsh-vscode-theme — VS Code-style workbench for DeepSeek Harness" width="820">
+<img src="https://raw.githubusercontent.com/lonebone/dsh-vscode-shell/main/docs/screenshots/workbench-main.png" alt="dsh-vscode-shell — VS Code-style workbench for DeepSeek Harness" width="820">
 
 [English](#english) | [中文](#中文)
 
@@ -26,13 +26,13 @@
 
 ```sh
 # 方式一：从 npm 安装（发布后）
-dsh plugin --profile web add dsh-vscode-theme
+dsh plugin --profile web add dsh-vscode-shell
 
 # 方式二：从 GitHub 安装
-dsh plugin --profile web add github:lonebone/dsh-vscode-theme
+dsh plugin --profile web add github:lonebone/dsh-vscode-shell
 
 # 方式三：本地开发（file: 直链）
-dsh plugin --profile web add file:/绝对/路径/dsh-vscode-theme
+dsh plugin --profile web add file:/绝对/路径/dsh-vscode-shell
 ```
 
 安装完成后**重启 `dsh web`** 并刷新页面。插件注册为 `dsh.profile.bundles` 层，重启后自动生效。
@@ -59,15 +59,15 @@ dsh plugin --profile web add file:/绝对/路径/dsh-vscode-theme
 
 接口参数为**绝对路径**。默认仅本机部署时使用；若把 DSH Web 暴露到公网，请自行加鉴权。
 
-### 与同名插件的区别
+### 与其他 VS Code 主题插件的区别
 
 GitHub 上另有 [Sim-xia/dsh-vscode-theme](https://github.com/Sim-xia/dsh-vscode-theme)：它导入 VS Code 的 `.vsix` 配色文件并映射成 DSH 的 UI token（只换颜色）。本插件则把整个界面外壳改造成 VS Code 布局并内置文件/Git 面板（换布局 + 功能），两者互补不冲突。
 
 ### 开发
 
 ```sh
-git clone https://github.com/lonebone/dsh-vscode-theme.git
-dsh plugin --profile web add file:./dsh-vscode-theme   # 本地链接安装
+git clone https://github.com/lonebone/dsh-vscode-shell.git
+dsh plugin --profile web add file:./dsh-vscode-shell   # 本地链接安装
 # 修改 lib/*.js 后重启 dsh web 生效
 ```
 
@@ -93,13 +93,13 @@ A DSH (DeepSeek Harness) plugin that replaces the default web UI with a VS Code-
 
 ```sh
 # from npm (after publish)
-dsh plugin --profile web add dsh-vscode-theme
+dsh plugin --profile web add dsh-vscode-shell
 
 # from GitHub
-dsh plugin --profile web add github:lonebone/dsh-vscode-theme
+dsh plugin --profile web add github:lonebone/dsh-vscode-shell
 
 # local development (file: link)
-dsh plugin --profile web add file:/absolute/path/dsh-vscode-theme
+dsh plugin --profile web add file:/absolute/path/dsh-vscode-shell
 ```
 
 Then **restart `dsh web`** and refresh the page. The plugin registers itself as a `dsh.profile.bundles` layer and activates on boot.
@@ -126,15 +126,15 @@ The plugin registers **no model tools** and never reads/writes user files on its
 
 Route parameters are **absolute paths**. It is designed for local deployments; add your own auth if you expose DSH Web publicly.
 
-### Difference from the same-named plugin
+### Difference from other VS Code theme plugins
 
 There is another [Sim-xia/dsh-vscode-theme](https://github.com/Sim-xia/dsh-vscode-theme): it imports VS Code `.vsix` color themes and maps them onto DSH's UI tokens (colors only). This plugin restyles the whole shell into a VS Code layout and adds real file/Git panels (layout + functionality). They complement each other.
 
 ### Development
 
 ```sh
-git clone https://github.com/lonebone/dsh-vscode-theme.git
-dsh plugin --profile web add file:./dsh-vscode-theme   # local link install
+git clone https://github.com/lonebone/dsh-vscode-shell.git
+dsh plugin --profile web add file:./dsh-vscode-shell   # local link install
 # edit lib/*.js, then restart dsh web
 ```
 

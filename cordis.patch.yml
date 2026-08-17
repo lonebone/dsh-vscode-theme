@@ -3,4 +3,4 @@
 
 - insert:
     - id: vscode-theme
-      name: dsh-vscode-theme
+      name: dsh-vscode-shell

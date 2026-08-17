@@ -1,6 +1,6 @@
 {
-  "name": "dsh-vscode-theme",
-  "version": "0.1.2",
+  "name": "dsh-vscode-shell",
+  "version": "0.1.3",
   "description": "VS Code-style workbench inside DeepSeek Harness Web: activity bar, explorer file tree, source-control (Git) panel and editor tabs — backed by real filesystem & Git routes.",
   "type": "module",
   "main": "lib/index.js",
@@ -33,9 +33,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/lonebone/dsh-vscode-theme.git"
+    "url": "git+https://github.com/lonebone/dsh-vscode-shell.git"
   },
-  "homepage": "https://github.com/lonebone/dsh-vscode-theme#readme",
+  "homepage": "https://github.com/lonebone/dsh-vscode-shell#readme",
   "publishConfig": {
     "access": "public"
   },
